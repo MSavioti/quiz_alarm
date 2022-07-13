@@ -1,3 +1,3 @@
-# Quiz Alarm
+# Quiz Waker 
 
-An alarm app where you need to answer random trivia questions to deactivate the alarm.
+An alarm clock app where you need to answer random trivia questions to deactivate the alarm.
