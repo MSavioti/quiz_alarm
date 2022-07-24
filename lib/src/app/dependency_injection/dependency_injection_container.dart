@@ -5,6 +5,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:quiz_waker/src/app/environment/env.dart';
 import 'package:quiz_waker/src/core/network/network_info.dart';
 import 'package:quiz_waker/src/core/network/network_info_impl.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_remote_data_source.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_remote_data_source_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/repositories/get_trivia_questions_repository_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_trivia_question_repository.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/use_cases/get_trivia_questions_use_case.dart';
@@ -56,11 +58,19 @@ void _initCore() {
       () => NetworkInfoImpl(internetConnectionChecker: serviceLocator()));
 }
 
-void _initDataSources() {}
+void _initDataSources() {
+  serviceLocator.registerLazySingleton<GetTriviaQuestionsRemoteDataSource>(
+    () => GetTriviaQuestionsRemoteDataSourceImpl(),
+  );
+}
 
 void _initRepositories() {
   serviceLocator.registerLazySingleton<GetTriviaQuestionRepository>(
-      () => GetTriviaQuestionsRepositoryImpl());
+    () => GetTriviaQuestionsRepositoryImpl(
+      networkInfo: serviceLocator(),
+      dataSource: serviceLocator(),
+    ),
+  );
 }
 
 void _initFeatures() {
