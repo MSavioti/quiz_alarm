@@ -5,11 +5,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:quiz_waker/src/app/environment/env.dart';
 import 'package:quiz_waker/src/core/network/network_info.dart';
 import 'package:quiz_waker/src/core/network/network_info_impl.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_local_data_source.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_local_data_source_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_remote_data_source.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_remote_data_source_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/repositories/get_trivia_questions_repository_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_trivia_question_repository.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/domain/use_cases/get_trivia_questions_use_case.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/domain/use_cases/get_trivia_questions_from_api_use_case.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -62,18 +64,23 @@ void _initDataSources() {
   serviceLocator.registerLazySingleton<GetTriviaQuestionsRemoteDataSource>(
     () => GetTriviaQuestionsRemoteDataSourceImpl(),
   );
+  serviceLocator.registerLazySingleton<GetTriviaQuestionsLocalDataSource>(
+    () => GetTriviaQuestionsLocalDataSourceImpl(),
+  );
 }
 
 void _initRepositories() {
   serviceLocator.registerLazySingleton<GetTriviaQuestionRepository>(
     () => GetTriviaQuestionsRepositoryImpl(
       networkInfo: serviceLocator(),
-      dataSource: serviceLocator(),
+      remoteDataSource: serviceLocator(),
+      localDataSource: serviceLocator(),
     ),
   );
 }
 
 void _initFeatures() {
-  serviceLocator.registerLazySingleton<GetTriviaQuestionsUseCase>(() =>
-      GetTriviaQuestionsUseCase(getTriviaQuestionRepository: serviceLocator()));
+  serviceLocator.registerLazySingleton<GetTriviaQuestionsFromApiUseCase>(() =>
+      GetTriviaQuestionsFromApiUseCase(
+          getTriviaQuestionRepository: serviceLocator()));
 }
