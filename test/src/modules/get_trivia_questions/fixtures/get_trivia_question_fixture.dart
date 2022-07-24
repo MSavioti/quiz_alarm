@@ -25,4 +25,16 @@ class GetTriviaQuestionFixture {
         List<QuestionEntity>.generate(count, (_) => dummyQuestion);
     return questions;
   }
+
+  static QuestionModel getDummyTriviaQuestionModel() {
+    final jsonContent = getDummyTriviaQuestionJson();
+    final question = QuestionModel.fromJson(jsonContent);
+    return question;
+  }
+
+  static List<QuestionModel> getDummyTriviaQuestionModels(int count) {
+    final dummyQuestion = getDummyTriviaQuestionModel();
+    final questions = List<QuestionModel>.generate(count, (_) => dummyQuestion);
+    return questions;
+  }
 }
