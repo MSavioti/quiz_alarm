@@ -13,6 +13,13 @@ class GetQuestionsFixture {
     return jsonContent;
   }
 
+  static String getDummyTriviaQuestionString() {
+    final fixtureFile = File(
+        'test/src/modules/get_trivia_questions/fixtures/trivia_question.json');
+    final stringfiedJson = fixtureFile.readAsStringSync();
+    return stringfiedJson;
+  }
+
   static QuestionEntity getDummyTriviaQuestion() {
     final jsonContent = getDummyTriviaQuestionJson();
     final question = QuestionModel.fromJson(jsonContent);
