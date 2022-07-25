@@ -5,11 +5,11 @@ import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/
 import 'package:quiz_waker/src/shared/models/question_parameters.dart';
 import 'package:quiz_waker/src/shared/use_cases/use_case.dart';
 
-class GetTriviaQuestionsFromApiUseCase
+class GetQuestionsFromApiUseCase
     implements UseCase<List<QuestionEntity>, QuestionParameters> {
-  final GetTriviaQuestionRepository getTriviaQuestionRepository;
+  final GetQuestionsRepository getTriviaQuestionRepository;
 
-  GetTriviaQuestionsFromApiUseCase({required this.getTriviaQuestionRepository});
+  GetQuestionsFromApiUseCase({required this.getTriviaQuestionRepository});
 
   @override
   Future<Either<Failure, List<QuestionEntity>>> call(

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/models/question_model.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/entities/question_entity.dart';
 
-class GetTriviaQuestionFixture {
+class GetQuestionsFixture {
   static Map<String, dynamic> getDummyTriviaQuestionJson() {
     final fixtureFile = File(
         'test/src/modules/get_trivia_questions/fixtures/trivia_question.json');

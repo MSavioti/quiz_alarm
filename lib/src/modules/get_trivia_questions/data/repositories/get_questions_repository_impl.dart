@@ -7,12 +7,12 @@ import 'package:quiz_waker/src/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_trivia_question_repository.dart';
 
-class GetTriviaQuestionsRepositoryImpl implements GetTriviaQuestionRepository {
-  final GetTriviaQuestionsRemoteDataSource remoteDataSource;
-  final GetTriviaQuestionsLocalDataSource localDataSource;
+class GetQuestionsRepositoryImpl implements GetQuestionsRepository {
+  final GetQuestionsRemoteDataSource remoteDataSource;
+  final GetQuestionsLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  const GetTriviaQuestionsRepositoryImpl({
+  const GetQuestionsRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
     required this.networkInfo,

@@ -3,27 +3,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:quiz_waker/src/core/error/failure.dart';
 import 'package:quiz_waker/src/core/network/network_info.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_local_data_source.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_remote_data_source.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_local_data_source.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_remote_data_source.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/models/question_model.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/data/repositories/get_trivia_questions_repository_impl.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/repositories/get_questions_repository_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/entities/question_entity.dart';
 
-import '../../fixtures/get_trivia_question_fixture.dart';
+import '../../fixtures/get_question_fixture.dart';
 
-class MockGetTriviaQuestionsRemoteDataSource extends Mock
-    implements GetTriviaQuestionsRemoteDataSource {}
+class MockGetQuestionsRemoteDataSource extends Mock
+    implements GetQuestionsRemoteDataSource {}
 
-class MockGetTriviaQuestionsLocalDataSource extends Mock
-    implements GetTriviaQuestionsLocalDataSource {}
+class MockGetQuestionsLocalDataSource extends Mock
+    implements GetQuestionsLocalDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
   late final MockNetworkInfo mockNetworkInfo;
-  late final GetTriviaQuestionsRepositoryImpl repository;
-  late final MockGetTriviaQuestionsRemoteDataSource mockRemoteDataSource;
-  late final MockGetTriviaQuestionsLocalDataSource mockLocalDataSource;
+  late final GetQuestionsRepositoryImpl repository;
+  late final MockGetQuestionsRemoteDataSource mockRemoteDataSource;
+  late final MockGetQuestionsLocalDataSource mockLocalDataSource;
   late final int tAmount;
   late final String tCategory;
   late final String tDifficulty;
@@ -31,9 +31,9 @@ void main() {
 
   setUpAll(() {
     mockNetworkInfo = MockNetworkInfo();
-    mockRemoteDataSource = MockGetTriviaQuestionsRemoteDataSource();
-    mockLocalDataSource = MockGetTriviaQuestionsLocalDataSource();
-    repository = GetTriviaQuestionsRepositoryImpl(
+    mockRemoteDataSource = MockGetQuestionsRemoteDataSource();
+    mockLocalDataSource = MockGetQuestionsLocalDataSource();
+    repository = GetQuestionsRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
       networkInfo: mockNetworkInfo,
@@ -42,7 +42,7 @@ void main() {
     tCategory = 'Entertainment: Video Games';
     tDifficulty = 'Medium';
     dummyQuestionModels =
-        GetTriviaQuestionFixture.getDummyTriviaQuestionModels(tAmount);
+        GetQuestionsFixture.getDummyTriviaQuestionModels(tAmount);
   });
 
   group('Get Trivia Questions repository', () {
@@ -57,7 +57,7 @@ void main() {
               difficulty: tDifficulty,
             )).thenAnswer(
           (_) async =>
-              GetTriviaQuestionFixture.getDummyTriviaQuestionModels(tAmount),
+              GetQuestionsFixture.getDummyTriviaQuestionModels(tAmount),
         );
 
         await repository.getQuestionsFromRemote(
@@ -95,7 +95,7 @@ void main() {
               difficulty: tDifficulty,
             )).thenAnswer(
           (_) async =>
-              GetTriviaQuestionFixture.getDummyTriviaQuestionModels(tAmount),
+              GetQuestionsFixture.getDummyTriviaQuestionModels(tAmount),
         );
 
         final result = await repository.getQuestionsFromRemote(
@@ -168,7 +168,7 @@ void main() {
       });
 
       test(
-          'should return a List of QuestionEntity from local storage when theres questions saved in the local storage',
+          'should return a List of QuestionEntity from local storage when there\'s questions saved in the local storage',
           () async {
         when(() => mockLocalDataSource.getQuestionsFromLocalStorage(
               amount: tAmount,
@@ -176,7 +176,7 @@ void main() {
               difficulty: tDifficulty,
             )).thenAnswer(
           (_) async =>
-              GetTriviaQuestionFixture.getDummyTriviaQuestionModels(tAmount),
+              GetQuestionsFixture.getDummyTriviaQuestionModels(tAmount),
         );
 
         final result = await repository.getQuestionsFromLocalStorage(

@@ -9,9 +9,9 @@ import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_local_data_source_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_remote_data_source.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_remote_data_source_impl.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/data/repositories/get_trivia_questions_repository_impl.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_trivia_question_repository.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/domain/use_cases/get_trivia_questions_from_api_use_case.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/repositories/get_questions_repository_impl.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_questions_repository.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/domain/usecases/get_questions_from_api_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -61,17 +61,17 @@ void _initCore() {
 }
 
 void _initDataSources() {
-  serviceLocator.registerLazySingleton<GetTriviaQuestionsRemoteDataSource>(
-    () => GetTriviaQuestionsRemoteDataSourceImpl(),
+  serviceLocator.registerLazySingleton<GetQuestionsRemoteDataSource>(
+    () => GetQuestionsRemoteDataSourceImpl(),
   );
-  serviceLocator.registerLazySingleton<GetTriviaQuestionsLocalDataSource>(
-    () => GetTriviaQuestionsLocalDataSourceImpl(),
+  serviceLocator.registerLazySingleton<GetQuestionsLocalDataSource>(
+    () => GetQuestionsLocalDataSourceImpl(),
   );
 }
 
 void _initRepositories() {
-  serviceLocator.registerLazySingleton<GetTriviaQuestionRepository>(
-    () => GetTriviaQuestionsRepositoryImpl(
+  serviceLocator.registerLazySingleton<GetQuestionsRepository>(
+    () => GetQuestionsRepositoryImpl(
       networkInfo: serviceLocator(),
       remoteDataSource: serviceLocator(),
       localDataSource: serviceLocator(),
@@ -80,7 +80,7 @@ void _initRepositories() {
 }
 
 void _initFeatures() {
-  serviceLocator.registerLazySingleton<GetTriviaQuestionsFromApiUseCase>(() =>
-      GetTriviaQuestionsFromApiUseCase(
+  serviceLocator.registerLazySingleton<GetQuestionsFromApiUseCase>(() =>
+      GetQuestionsFromApiUseCase(
           getTriviaQuestionRepository: serviceLocator()));
 }
