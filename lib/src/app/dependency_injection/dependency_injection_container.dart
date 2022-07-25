@@ -12,6 +12,8 @@ import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/repositories/get_questions_repository_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_questions_repository.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/usecases/get_questions_from_api_usecase.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/domain/usecases/get_questions_from_local_storage_usecase.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/domain/usecases/save_questions_to_local_storage_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -82,5 +84,11 @@ void _initRepositories() {
 void _initFeatures() {
   serviceLocator.registerLazySingleton<GetQuestionsFromApiUseCase>(() =>
       GetQuestionsFromApiUseCase(
+          getTriviaQuestionRepository: serviceLocator()));
+  serviceLocator.registerLazySingleton<GetQuestionsFromLocalStorageUseCase>(
+      () => GetQuestionsFromLocalStorageUseCase(
+          getTriviaQuestionRepository: serviceLocator()));
+  serviceLocator.registerLazySingleton<SaveQuestionsToLocalStorageUseCase>(() =>
+      SaveQuestionsToLocalStorageUseCase(
           getTriviaQuestionRepository: serviceLocator()));
 }
