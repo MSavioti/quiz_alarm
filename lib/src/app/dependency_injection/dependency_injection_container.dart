@@ -64,7 +64,7 @@ void _initCore() {
 
 void _initDataSources() {
   serviceLocator.registerLazySingleton<GetQuestionsRemoteDataSource>(
-    () => GetQuestionsRemoteDataSourceImpl(),
+    () => GetQuestionsRemoteDataSourceImpl(client: serviceLocator()),
   );
   serviceLocator.registerLazySingleton<GetQuestionsLocalDataSource>(
     () => GetQuestionsLocalDataSourceImpl(),
