@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:quiz_waker/src/core/error/exception.dart';
 import 'package:quiz_waker/src/core/error/failure.dart';
 import 'package:quiz_waker/src/core/network/network_info.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_local_data_source.dart';
@@ -118,7 +119,6 @@ void main() {
       test(
           'should cache questions in the local storage when the device is connected to the internet',
           () async {
-        reset(mockLocalDataSource);
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         when(() => mockRemoteDataSource.getQuestionsFromApi(
               amount: tAmount,
@@ -148,6 +148,41 @@ void main() {
               category: tCategory,
               difficulty: tDifficulty,
             ));
+      });
+
+      test(
+          'should return a LocalStorageFailure when the repository in not able to save questions to the local storage',
+          () async {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(() => mockRemoteDataSource.getQuestionsFromApi(
+              amount: tAmount,
+              category: tCategory,
+              difficulty: tDifficulty,
+            )).thenAnswer((_) async => dummyQuestionModels);
+        when(() => mockLocalDataSource.saveQuestionsToLocalStorage(
+              questions: dummyQuestionModels,
+            )).thenThrow(LocalStorageException());
+
+        final result = await repository.getQuestionsFromRemote(
+          amount: tAmount,
+          category: tCategory,
+          difficulty: tDifficulty,
+        );
+        final questions =
+            result.fold<List<QuestionEntity>>((l) => [], (r) => r);
+        final cacheSuccess =
+            await repository.saveQuestionsToLocalStorage(questions);
+
+        expect(result, isA<Right<Failure, List<QuestionEntity>>>());
+        expect(cacheSuccess, isA<Left<Failure, bool>>());
+        verify(mockNetworkInfo.isConnected);
+        verify(() => mockRemoteDataSource.getQuestionsFromApi(
+              amount: tAmount,
+              category: tCategory,
+              difficulty: tDifficulty,
+            ));
+        verify(() => mockLocalDataSource.saveQuestionsToLocalStorage(
+            questions: dummyQuestionModels));
       });
     });
 
@@ -188,6 +223,29 @@ void main() {
         expect(result, isA<Right<Failure, List<QuestionEntity>>>());
         final questions = result.fold((l) => [], (r) => r);
         expect(questions.isNotEmpty, true);
+        verify(() => mockLocalDataSource.getQuestionsFromLocalStorage(
+              amount: tAmount,
+              category: tCategory,
+              difficulty: tDifficulty,
+            ));
+      });
+
+      test(
+          'should return a failure when the repository cannot get questions from the local storage',
+          () async {
+        when(() => mockLocalDataSource.getQuestionsFromLocalStorage(
+              amount: tAmount,
+              category: tCategory,
+              difficulty: tDifficulty,
+            )).thenThrow(LocalStorageException());
+
+        final result = await repository.getQuestionsFromLocalStorage(
+          amount: tAmount,
+          category: tCategory,
+          difficulty: tDifficulty,
+        );
+
+        expect(result, isA<Left<Failure, List<QuestionEntity>>>());
         verify(() => mockLocalDataSource.getQuestionsFromLocalStorage(
               amount: tAmount,
               category: tCategory,

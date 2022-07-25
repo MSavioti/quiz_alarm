@@ -39,6 +39,38 @@ class GetQuestionsRepositoryImpl implements GetQuestionsRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, List<QuestionEntity>>> getQuestionsFromLocalStorage({
+    required int amount,
+    required String category,
+    required String difficulty,
+  }) async {
+    try {
+      final questions = await localDataSource.getQuestionsFromLocalStorage(
+        amount: amount,
+        category: category,
+        difficulty: difficulty,
+      );
+
+      return Right(questions);
+    } on LocalStorageException {
+      return Left(LocalStorageFailure());
+    }
+  }
+
+  @override
+  Future<Either<LocalStorageFailure, bool>> saveQuestionsToLocalStorage(
+    List<QuestionEntity> questions,
+  ) async {
+    try {
+      final result = await localDataSource.saveQuestionsToLocalStorage(
+          questions: questions);
+      return Right(result);
+    } on LocalStorageException {
+      return Left(LocalStorageFailure());
+    }
+  }
+
   Future<bool> _checkConnection() async {
     final isConnected = await networkInfo.isConnected();
 
@@ -47,48 +79,5 @@ class GetQuestionsRepositoryImpl implements GetQuestionsRepository {
     }
 
     return isConnected;
-  }
-
-  @override
-  Future<Either<Failure, List<QuestionEntity>>> getQuestionsFromLocalStorage({
-    required int amount,
-    required String category,
-    required String difficulty,
-  }) async {
-    final questions = await localDataSource.getQuestionsFromLocalStorage(
-      amount: amount,
-      category: category,
-      difficulty: difficulty,
-    );
-
-    return Right(questions);
-  }
-
-  @override
-  Future<Either<LocalStorageFailure, bool>> saveQuestionsToLocalStorage(
-    List<QuestionEntity> questions,
-  ) async {
-    try {
-      final result = await _saveQuestionsToLocalStorage(questions);
-      return Right(result);
-    } on LocalStorageException {
-      return Left(LocalStorageFailure());
-    }
-  }
-
-  Future<bool> _saveQuestionsToLocalStorage(
-      List<QuestionEntity> questions) async {
-    try {
-      final hasSucceeded = await localDataSource.saveQuestionsToLocalStorage(
-        questions: questions,
-      );
-      if (!hasSucceeded) {
-        throw LocalStorageException();
-      }
-
-      return hasSucceeded;
-    } catch (e) {
-      throw LocalStorageException();
-    }
   }
 }
