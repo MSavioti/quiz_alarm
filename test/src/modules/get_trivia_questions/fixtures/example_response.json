@@ -1,0 +1,33 @@
+{
+  "response_code": 0,
+  "results": [
+    {
+      "category": "Entertainment: Video Games",
+      "type": "multiple",
+      "difficulty": "medium",
+      "question": "What was the code name for the &quot;Nintendo Gamecube&quot;?",
+      "correct_answer": "Dolphin",
+      "incorrect_answers": ["Nitro", "Revolution", "Atlantis"]
+    },
+    {
+      "category": "Entertainment: Video Games",
+      "type": "multiple",
+      "difficulty": "medium",
+      "question": "Which of these operators from &quot;Tom Clancy&#039;s Rainbow Six Siege&quot; has the ability to damage reinforced walls?",
+      "correct_answer": "Jordan &quot;Thermite&quot; Trace",
+      "incorrect_answers": [
+        "Eliza &quot;Ash&quot; Cohen",
+        "Seamus &quot;Sledge&quot; Cowden",
+        "Dominic &quot;Bandit&quot; Brunsmeier"
+      ]
+    },
+    {
+      "category": "Entertainment: Video Games",
+      "type": "multiple",
+      "difficulty": "medium",
+      "question": "What is the main character&#039;s name in &quot;Braid&quot;?",
+      "correct_answer": "Tim",
+      "incorrect_answers": ["Boregard", "James", "Jackson"]
+    }
+  ]
+}
