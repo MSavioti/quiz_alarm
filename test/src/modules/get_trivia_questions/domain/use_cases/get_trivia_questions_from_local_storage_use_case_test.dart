@@ -4,7 +4,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:quiz_waker/src/core/error/failure.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/entities/question_entity.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_trivia_question_repository.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/domain/use_cases/get_trivia_questions_from_api_use_case.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/use_cases/get_trivia_questions_from_local_storage_use_case.dart';
 import 'package:quiz_waker/src/shared/constants/categories_ids_constants.dart';
 import 'package:quiz_waker/src/shared/constants/categories_names_constants.dart';
