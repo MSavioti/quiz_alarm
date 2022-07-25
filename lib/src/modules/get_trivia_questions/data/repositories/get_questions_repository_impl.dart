@@ -1,11 +1,11 @@
 import 'package:quiz_waker/src/core/error/exception.dart';
 import 'package:quiz_waker/src/core/network/network_info.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_local_data_source.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_remote_data_source.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_local_data_source.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_remote_data_source.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/entities/question_entity.dart';
 import 'package:quiz_waker/src/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_trivia_question_repository.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_questions_repository.dart';
 
 class GetQuestionsRepositoryImpl implements GetQuestionsRepository {
   final GetQuestionsRemoteDataSource remoteDataSource;

@@ -1,4 +1,4 @@
-import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_trivia_questions_remote_data_source.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_remote_data_source.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/models/question_model.dart';
 
 class GetQuestionsRemoteDataSourceImpl implements GetQuestionsRemoteDataSource {
