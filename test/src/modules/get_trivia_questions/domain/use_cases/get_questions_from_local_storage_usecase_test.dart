@@ -46,6 +46,11 @@ void main() {
 
     final questions = result.fold<List<QuestionEntity>>((l) => [], (r) => r);
     expect(questions.length, tQuestionsAmount);
+    verify(() => mockGetTriviaQuestionRepository.getQuestionsFromLocalStorage(
+          amount: tQuestionsAmount,
+          category: CategoriesIdsConstants.generalKnowledge,
+          difficulty: DifficultiesNamesConstants.easy,
+        ));
 
     for (var question in questions) {
       assert(question.category == CategoriesNamesConstants.generalKnowledge);

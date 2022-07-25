@@ -48,6 +48,13 @@ void main() {
       expect(result, isA<Right<Failure, bool>>());
       final hasSucceeded = result.fold<bool>((l) => false, (r) => r);
       expect(hasSucceeded, true);
+      verify(() => mockGetTriviaQuestionRepository.getQuestionsFromRemote(
+            amount: tQuestionsAmount,
+            category: CategoriesIdsConstants.generalKnowledge,
+            difficulty: DifficultiesNamesConstants.easy,
+          ));
+      verify(() => mockGetTriviaQuestionRepository
+          .saveQuestionsToLocalStorage(tQuestions));
     });
 
     test(
@@ -68,6 +75,11 @@ void main() {
       expect(result, isA<Left<Failure, bool>>());
       final hasSucceeded = result.fold<bool>((l) => false, (r) => r);
       expect(hasSucceeded, false);
+      verify(() => mockGetTriviaQuestionRepository.getQuestionsFromRemote(
+            amount: tQuestionsAmount,
+            category: CategoriesIdsConstants.generalKnowledge,
+            difficulty: DifficultiesNamesConstants.easy,
+          ));
     });
 
     test(
@@ -90,6 +102,13 @@ void main() {
       expect(result, isA<Left<Failure, bool>>());
       final hasSucceeded = result.fold<bool>((l) => false, (r) => r);
       expect(hasSucceeded, false);
+      verify(() => mockGetTriviaQuestionRepository.getQuestionsFromRemote(
+            amount: tQuestionsAmount,
+            category: CategoriesIdsConstants.generalKnowledge,
+            difficulty: DifficultiesNamesConstants.easy,
+          ));
+      verify(() => mockGetTriviaQuestionRepository
+          .saveQuestionsToLocalStorage(tQuestions));
     });
   });
 }
