@@ -56,5 +56,24 @@ void main() {
           amount: tAmount, category: tCategory, difficulty: tDifficulty);
       await expectLater(function, throwsA(isA<ServerException>()));
     });
+
+    test(
+        'should return a empty response and status code 200 when no results for a search are found',
+        () async {
+      dioAdapter.onGet(
+        Env.baseUrl,
+        queryParameters: Env.questionParameters(
+          amount: tAmount,
+          category: tCategory,
+          difficulty: tDifficulty,
+        ),
+        (server) => server.reply(200, ''),
+      );
+
+      final result = await dataSource.getQuestionsFromApi(
+          amount: tAmount, category: tCategory, difficulty: tDifficulty);
+      expect(result, isA<List<QuestionModel>>());
+      expect(result.isEmpty, true);
+    });
   });
 }
