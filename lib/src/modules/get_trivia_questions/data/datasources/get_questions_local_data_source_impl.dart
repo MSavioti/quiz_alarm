@@ -72,12 +72,15 @@ class GetQuestionsLocalDataSourceImpl implements GetQuestionsLocalDataSource {
       final questionsBox = await _getBox();
       final hiveQuestions = questions.map<HiveQuestionModel>(
           (e) => HiveQuestionModel.fromQuestionEntity(e));
-      await questionsBox.put(
-          HiveConstants.storedQuestionskey, hiveQuestions.toList());
+      final key = HiveConstants.storedQuestionskey(
+        category: category,
+        difficulty: difficulty,
+      );
+      await questionsBox.put(key, hiveQuestions.toList());
       return true;
     } on HiveError {
       throw LocalStorageException();
-    } catch (e) {
+    } catch (_) {
       throw LocalStorageException();
     }
   }
@@ -93,31 +96,37 @@ class GetQuestionsLocalDataSourceImpl implements GetQuestionsLocalDataSource {
     required String category,
     required String difficulty,
   }) async {
-    final targetQuestions = await getQuestionsFromLocalStorage(
-      amount: amount,
-      category: category,
-      difficulty: difficulty,
-    );
-    final allQuestions = await getAllQuestionsFromLocalStorage(
-        category: category, difficulty: difficulty);
+    try {
+      final targetQuestions = await getQuestionsFromLocalStorage(
+        amount: amount,
+        category: category,
+        difficulty: difficulty,
+      );
+      final allQuestions = await getAllQuestionsFromLocalStorage(
+          category: category, difficulty: difficulty);
 
-    if (targetQuestions.length <= targetQuestions.length) {
-      await saveQuestionsToLocalStorage(
-        questions: [],
-        category: category,
-        difficulty: difficulty,
-      );
-    } else {
-      final start = targetQuestions.length;
-      final end = amount.clamp(start, allQuestions.length);
-      final remainingQuestions = allQuestions.getRange(start, end).toList();
-      await saveQuestionsToLocalStorage(
-        questions: remainingQuestions,
-        category: category,
-        difficulty: difficulty,
-      );
+      if (allQuestions.length <= targetQuestions.length) {
+        await saveQuestionsToLocalStorage(
+          questions: [],
+          category: category,
+          difficulty: difficulty,
+        );
+      } else {
+        final start = targetQuestions.length;
+        final end = allQuestions.length;
+        final remainingQuestions = allQuestions.getRange(start, end).toList();
+        await saveQuestionsToLocalStorage(
+          questions: remainingQuestions,
+          category: category,
+          difficulty: difficulty,
+        );
+      }
+
+      return targetQuestions;
+    } on HiveError {
+      throw LocalStorageException();
+    } catch (e) {
+      throw LocalStorageException();
     }
-
-    return targetQuestions;
   }
 }
