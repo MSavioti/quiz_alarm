@@ -1,4 +1,10 @@
 class HiveConstants {
   static const String storedQuestionsBoxName = 'questions';
-  static const String storedQuestionskey = 'all_questions';
+
+  static String storedQuestionskey({
+    required String category,
+    required String difficulty,
+  }) {
+    return '$category-$difficulty';
+  }
 }

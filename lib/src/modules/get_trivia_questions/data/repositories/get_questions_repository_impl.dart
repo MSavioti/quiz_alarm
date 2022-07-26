@@ -47,11 +47,10 @@ class GetQuestionsRepositoryImpl implements GetQuestionsRepository {
   }) async {
     try {
       final questions = await localDataSource.getQuestionsFromLocalStorage(
-            amount: amount,
-            category: category,
-            difficulty: difficulty,
-          ) ??
-          [];
+        amount: amount,
+        category: category,
+        difficulty: difficulty,
+      );
 
       return Right(questions);
     } on LocalStorageException {
@@ -62,10 +61,15 @@ class GetQuestionsRepositoryImpl implements GetQuestionsRepository {
   @override
   Future<Either<LocalStorageFailure, bool>> saveQuestionsToLocalStorage(
     List<QuestionEntity> questions,
+    String category,
+    String difficulty,
   ) async {
     try {
       final result = await localDataSource.saveQuestionsToLocalStorage(
-          questions: questions);
+        questions: questions,
+        category: category,
+        difficulty: difficulty,
+      );
       return Right(result);
     } on LocalStorageException {
       return Left(LocalStorageFailure());

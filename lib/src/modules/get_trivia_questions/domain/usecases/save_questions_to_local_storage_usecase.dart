@@ -29,8 +29,12 @@ class SaveQuestionsToLocalStorageUseCase
 
     final questions =
         questionResult.fold<List<QuestionEntity>>((l) => [], (r) => r);
-    final savingResult = await getTriviaQuestionRepository
-        .saveQuestionsToLocalStorage(questions);
+    final savingResult =
+        await getTriviaQuestionRepository.saveQuestionsToLocalStorage(
+      questions,
+      params.category,
+      params.difficulty,
+    );
     return savingResult;
   }
 }

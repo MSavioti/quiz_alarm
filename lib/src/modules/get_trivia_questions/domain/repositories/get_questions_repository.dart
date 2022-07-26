@@ -16,5 +16,8 @@ abstract class GetQuestionsRepository {
   });
 
   Future<Either<LocalStorageFailure, bool>> saveQuestionsToLocalStorage(
-      List<QuestionEntity> questions);
+    List<QuestionEntity> questions,
+    String category,
+    String difficulty,
+  );
 }

@@ -127,6 +127,8 @@ void main() {
             )).thenAnswer((_) async => dummyQuestionModels);
         when(() => mockLocalDataSource.saveQuestionsToLocalStorage(
               questions: dummyQuestionModels,
+              category: tCategory,
+              difficulty: tDifficulty,
             )).thenAnswer((_) async => true);
 
         final result = await repository.getQuestionsFromRemote(
@@ -136,8 +138,8 @@ void main() {
         );
         final questions =
             result.fold<List<QuestionEntity>>((l) => [], (r) => r);
-        final cacheSuccess =
-            await repository.saveQuestionsToLocalStorage(questions);
+        final cacheSuccess = await repository.saveQuestionsToLocalStorage(
+            questions, tCategory, tDifficulty);
 
         expect(result, isA<Right<Failure, List<QuestionEntity>>>());
         expect(cacheSuccess, isA<Right<Failure, bool>>());
@@ -161,6 +163,8 @@ void main() {
             )).thenAnswer((_) async => dummyQuestionModels);
         when(() => mockLocalDataSource.saveQuestionsToLocalStorage(
               questions: dummyQuestionModels,
+              category: tCategory,
+              difficulty: tDifficulty,
             )).thenThrow(LocalStorageException());
 
         final result = await repository.getQuestionsFromRemote(
@@ -170,8 +174,8 @@ void main() {
         );
         final questions =
             result.fold<List<QuestionEntity>>((l) => [], (r) => r);
-        final cacheSuccess =
-            await repository.saveQuestionsToLocalStorage(questions);
+        final cacheSuccess = await repository.saveQuestionsToLocalStorage(
+            questions, tCategory, tDifficulty);
 
         expect(result, isA<Right<Failure, List<QuestionEntity>>>());
         expect(cacheSuccess, isA<Left<Failure, bool>>());
@@ -182,7 +186,10 @@ void main() {
               difficulty: tDifficulty,
             ));
         verify(() => mockLocalDataSource.saveQuestionsToLocalStorage(
-            questions: dummyQuestionModels));
+              questions: dummyQuestionModels,
+              category: tCategory,
+              difficulty: tDifficulty,
+            ));
       });
     });
 

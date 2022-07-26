@@ -19,6 +19,8 @@ void main() {
   late final List<QuestionEntity> tQuestions;
   late final SaveQuestionsToLocalStorageUseCase useCase;
   const int tQuestionsAmount = 3;
+  const String tCategory = 'Entertainment: Video Games';
+  const String tDifficulty = 'Medium';
 
   setUpAll(() {
     useCase = SaveQuestionsToLocalStorageUseCase(
@@ -37,7 +39,8 @@ void main() {
             difficulty: DifficultiesNamesConstants.easy,
           )).thenAnswer((_) async => Right(tQuestions));
       when(() => mockGetTriviaQuestionRepository.saveQuestionsToLocalStorage(
-          tQuestions)).thenAnswer((_) async => const Right(true));
+              tQuestions, tCategory, tDifficulty))
+          .thenAnswer((_) async => const Right(true));
 
       final result = await useCase(QuestionParameters(
         amount: tQuestionsAmount,
@@ -53,8 +56,8 @@ void main() {
             category: CategoriesIdsConstants.generalKnowledge,
             difficulty: DifficultiesNamesConstants.easy,
           ));
-      verify(() => mockGetTriviaQuestionRepository
-          .saveQuestionsToLocalStorage(tQuestions));
+      verify(() => mockGetTriviaQuestionRepository.saveQuestionsToLocalStorage(
+          tQuestions, tCategory, tDifficulty));
     });
 
     test(
@@ -91,7 +94,8 @@ void main() {
             difficulty: DifficultiesNamesConstants.easy,
           )).thenAnswer((_) async => Right(tQuestions));
       when(() => mockGetTriviaQuestionRepository.saveQuestionsToLocalStorage(
-          tQuestions)).thenAnswer((_) async => Left(LocalStorageFailure()));
+              tQuestions, tCategory, tDifficulty))
+          .thenAnswer((_) async => Left(LocalStorageFailure()));
 
       final result = await useCase(QuestionParameters(
         amount: tQuestionsAmount,
@@ -107,8 +111,8 @@ void main() {
             category: CategoriesIdsConstants.generalKnowledge,
             difficulty: DifficultiesNamesConstants.easy,
           ));
-      verify(() => mockGetTriviaQuestionRepository
-          .saveQuestionsToLocalStorage(tQuestions));
+      verify(() => mockGetTriviaQuestionRepository.saveQuestionsToLocalStorage(
+          tQuestions, tCategory, tDifficulty));
     });
   });
 }
