@@ -5,6 +5,6 @@ class HiveConstants {
     required String category,
     required String difficulty,
   }) {
-    return '$category-$difficulty';
+    return '${category.trim()}-$difficulty';
   }
 }
