@@ -19,13 +19,11 @@ class GetQuestionsLocalDataSourceImpl implements GetQuestionsLocalDataSource {
   }) async {
     try {
       final questionsBox = await _getBox();
-      final storedQuestions = questionsBox.get(
-            HiveConstants.storedQuestionskey(
-              category: category,
-              difficulty: difficulty,
-            ),
-          ) ??
-          [];
+      final key = HiveConstants.storedQuestionskey(
+        category: category,
+        difficulty: difficulty,
+      );
+      final storedQuestions = questionsBox.get(key) ?? [];
 
       const rangeStart = 0;
       final rangeEnd = amount.clamp(rangeStart, storedQuestions.length);
@@ -47,13 +45,11 @@ class GetQuestionsLocalDataSourceImpl implements GetQuestionsLocalDataSource {
   }) async {
     try {
       final questionsBox = await _getBox();
-      final storedQuestions = questionsBox.get(
-            HiveConstants.storedQuestionskey(
-              category: category,
-              difficulty: difficulty,
-            ),
-          ) ??
-          [];
+      final key = HiveConstants.storedQuestionskey(
+        category: category,
+        difficulty: difficulty,
+      );
+      final storedQuestions = questionsBox.get(key) ?? [];
       return storedQuestions;
     } on HiveError {
       throw LocalStorageException();
