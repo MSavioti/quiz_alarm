@@ -9,6 +9,7 @@ import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_local_data_source_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_remote_data_source.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_remote_data_source_impl.dart';
+import 'package:quiz_waker/src/modules/get_trivia_questions/data/models/hive/hive_question_model.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/repositories/get_questions_repository_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/repositories/get_questions_repository.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/domain/usecases/get_questions_from_api_usecase.dart';
@@ -31,8 +32,7 @@ Future<void> _initExternalDependencies() async {
   // Hive
   final documentsPath = await getApplicationDocumentsDirectory();
   Hive.init(documentsPath.path);
-  // TODO: register adapters
-  // Hive.registerAdapter(HiveGameModelAdapter());
+  Hive.registerAdapter(HiveQuestionModelAdapter());
 
   // Shared Preferences
   serviceLocator.registerLazySingletonAsync<SharedPreferences>(
@@ -67,7 +67,7 @@ void _initDataSources() {
     () => GetQuestionsRemoteDataSourceImpl(client: serviceLocator()),
   );
   serviceLocator.registerLazySingleton<GetQuestionsLocalDataSource>(
-    () => GetQuestionsLocalDataSourceImpl(),
+    () => GetQuestionsLocalDataSourceImpl(hiveInterface: Hive),
   );
 }
 
