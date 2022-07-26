@@ -47,13 +47,14 @@ class GetQuestionsFixture {
     return question;
   }
 
-  static List<QuestionModel> getDummyTriviaQuestionModels(int count) {
+  static List<QuestionModel> getDummyTriviaQuestionModels(int amount) {
     final dummyQuestion = getDummyTriviaQuestionModel();
-    final questions = List<QuestionModel>.generate(count, (_) => dummyQuestion);
+    final questions =
+        List<QuestionModel>.generate(amount, (_) => dummyQuestion);
     return questions;
   }
 
-  static QuestionModel getDummyTriviaQuestionHiveModel() {
+  static HiveQuestionModel getDummyTriviaQuestionHiveModel() {
     final jsonContent = getDummyTriviaQuestionJson();
     final questionModel = QuestionModel.fromJson(jsonContent);
     final hiveQuestion = HiveQuestionModel(
@@ -65,5 +66,12 @@ class GetQuestionsFixture {
       wrongAnswers: questionModel.wrongAnswers,
     );
     return hiveQuestion;
+  }
+
+  static List<HiveQuestionModel> getDummyTriviaQuestionHiveModels(int amount) {
+    final dummyQuestion = getDummyTriviaQuestionHiveModel();
+    final questions =
+        List<HiveQuestionModel>.generate(amount, (_) => dummyQuestion);
+    return questions;
   }
 }
