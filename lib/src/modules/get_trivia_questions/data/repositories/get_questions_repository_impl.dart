@@ -47,10 +47,11 @@ class GetQuestionsRepositoryImpl implements GetQuestionsRepository {
   }) async {
     try {
       final questions = await localDataSource.getQuestionsFromLocalStorage(
-        amount: amount,
-        category: category,
-        difficulty: difficulty,
-      );
+            amount: amount,
+            category: category,
+            difficulty: difficulty,
+          ) ??
+          [];
 
       return Right(questions);
     } on LocalStorageException {
