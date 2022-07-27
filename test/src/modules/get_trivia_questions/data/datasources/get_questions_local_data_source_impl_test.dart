@@ -7,7 +7,6 @@ import 'package:quiz_waker/src/core/error/exception.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/datasources/get_questions_local_data_source_impl.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/models/hive/hive_question_model.dart';
 import 'package:quiz_waker/src/modules/get_trivia_questions/data/models/question_model.dart';
-import 'package:quiz_waker/src/modules/get_trivia_questions/domain/entities/question_entity.dart';
 import 'package:quiz_waker/src/shared/constants/hive_constants.dart';
 
 import '../../fixtures/get_question_fixture.dart';
@@ -20,9 +19,6 @@ void main() {
   late final MockHiveInterface mockHiveInterface;
   late final MockBox<List<HiveQuestionModel>> mockBox;
   late final GetQuestionsLocalDataSourceImpl localDataSource;
-  final tQuestionEntity = GetQuestionsFixture.getDummyTriviaQuestion();
-  final tHiveQuestionModel =
-      GetQuestionsFixture.getDummyTriviaQuestionHiveModel();
   const tQuestionsAmount = 3;
   const tAllQuestionsAmount = 5;
   const String tCategory = 'Entertainment: Video Games';
